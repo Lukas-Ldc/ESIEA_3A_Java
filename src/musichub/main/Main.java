@@ -12,7 +12,7 @@ public class Main
 
 		MusicHub theHub = new MusicHub ();
 		
-		System.out.println("commmit test");
+	
 		System.out.println("Type h for available commands");
 		
 		
