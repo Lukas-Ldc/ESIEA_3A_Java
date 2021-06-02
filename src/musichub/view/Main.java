@@ -1,5 +1,12 @@
-package musichub.main;
-import musichub.business.*;
+package musichub.view;
+import musichub.controller.MusicHub;
+import musichub.exception.*;
+import musichub.model.Album;
+import musichub.model.AudioBook;
+import musichub.model.AudioElement;
+import musichub.model.PlayList;
+import musichub.model.Song;
+
 import java.util.*;
 
 import java.beans.XMLEncoder;

@@ -1,4 +1,4 @@
-package musichub.business;
+package musichub.model;
 
 import org.w3c.dom.*;
 
