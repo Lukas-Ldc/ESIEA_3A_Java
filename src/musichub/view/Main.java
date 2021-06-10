@@ -1,5 +1,6 @@
 package musichub.view;
 import musichub.controller.MusicHub;
+import musichub.view.Covers;
 import musichub.exception.*;
 import musichub.model.Album;
 import musichub.model.AudioBook;
@@ -18,7 +19,7 @@ public class Main
  	public static void main (String[] args) {
 
 		MusicHub theHub = new MusicHub ();
-		
+		Covers theCovers = new Covers ();
 	
 		System.out.println("Type h for available commands");
 		
@@ -50,6 +51,11 @@ public class Main
 					albumTitle = scan.nextLine();
 					try {
 						System.out.println(theHub.getAlbumSongsSortedByGenre(albumTitle));
+						try {
+							theCovers.showAlbumCover(albumTitle);
+						} catch (NoCoverFoundException ex) {
+							System.out.println("No cover found with the requested title !");
+						}
 					} catch (NoAlbumFoundException ex) {
 						System.out.println("No album found with the requested title " + ex.getMessage());
 					}
@@ -64,6 +70,11 @@ public class Main
 					albumTitle = scan.nextLine();
 					try {
 						System.out.println(theHub.getAlbumSongs(albumTitle));
+						try {
+							theCovers.showAlbumCover(albumTitle);
+						} catch (NoCoverFoundException ex) {
+							System.out.println("No cover found with the requested title !");
+						}
 					} catch (NoAlbumFoundException ex) {
 						System.out.println("No album found with the requested title " + ex.getMessage());
 					}
