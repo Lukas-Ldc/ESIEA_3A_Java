@@ -23,7 +23,7 @@ public class Covers {
 		for (Album al : albums) {
 	        if (al.getTitle().toLowerCase().equals(albumTitle.toLowerCase())) {
 	            String imageName = al.getUUID().toString() + ".png";
-	            String imagePath = theHub.getCoversPath() + imageName;
+	            String imagePath = MusicHub.getCoversPath() + imageName;
 	            File theImage = new File(imagePath);
 	            if (theImage.exists()) {
 		            JFrame frame = new JFrame(al.getTitle());
@@ -41,7 +41,7 @@ public class Covers {
 		for (PlayList pl : playlists) {
 	        if (pl.getTitle().toLowerCase().equals(playlistTitle.toLowerCase())) {
 	            String imageName = pl.getUUID().toString() + ".png";
-	            String imagePath = theHub.getCoversPath() + imageName;
+	            String imagePath = MusicHub.getCoversPath() + imageName;
 	            File theImage = new File(imagePath);
 	            if (theImage.exists()) {
 		            JFrame frame = new JFrame(pl.getTitle());
@@ -58,9 +58,8 @@ public class Covers {
 	public void showElementCover (String elementTitle) throws NoCoverFoundException {
 		for (AudioElement ae : elements) {
 			if (ae.getTitle().toLowerCase().equals(elementTitle.toLowerCase())) {
-				UUID theUUID = ae.getUUID();
 				String imageName = ae.getUUID().toString() + ".png";
-	            String imagePath = theHub.getCoversPath() + imageName;
+	            String imagePath = MusicHub.getCoversPath() + imageName;
 	            File theImage = new File(imagePath);
 	            if (theImage.exists()) {
 		            JFrame frame = new JFrame(ae.getTitle());
@@ -71,7 +70,7 @@ public class Covers {
 	            	for (Album al : albums) {
 	            		List<UUID> uuids = al.getSongs();
 	            		for (UUID uuid : uuids) {
-	            			if (uuid.equals(theUUID)) {
+	            			if (uuid.equals(ae.getUUID())) {
 	            				showAlbumCover(al.getTitle());
 	            			}
 	            		}

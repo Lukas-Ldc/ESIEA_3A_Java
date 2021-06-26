@@ -55,7 +55,7 @@ public class MusicHub {
 		this.loadPlaylists();
 	}
 	
-	public String getCoversPath() {
+	public static String getCoversPath() {
 		return COVERS_FILE_PATH;
 	}
 	
