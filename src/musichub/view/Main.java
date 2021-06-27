@@ -1,4 +1,5 @@
 package musichub.view;
+import musichub.controller.AudioElementController;
 import musichub.controller.MusicHub;
 import musichub.exception.*;
 import musichub.model.Album;
@@ -18,7 +19,7 @@ public class Main
  	public static void main (String[] args) {
 
 		MusicHub theHub = new MusicHub ();
-		
+		AudioElementController audioElementController = new AudioElementController();
 	
 		System.out.println("Type h for available commands");
 		
@@ -235,6 +236,23 @@ public class Main
 					printAvailableCommands();
 					choice = scan.nextLine();
 				break;
+				case 'r':
+					//random playlists 
+					List<PlayList> playlists = theHub.getPlaylist();
+					
+					for(int i=0; i < playlists.size(); i++) {
+						System.out.println(i + " - " + playlists.get(i).getTitle()); //list playlists
+					}
+					
+					System.out.println("Select a playlist ");//
+					String chosenPlaylist = scan.nextLine(); //Playlist choisen by user
+					
+					audioElementController.random(playlists.get(Integer.valueOf(chosenPlaylist)));
+					printAvailableCommands();//stop to loop print
+					choice = scan.nextLine();
+					break;
+					
+					
 				default:
 				
 				break;

@@ -345,4 +345,8 @@ public class MusicHub {
 		}
 		xmlHandler.createXMLFile(document, ELEMENTS_FILE_PATH);
  	}	
+	
+	public List<PlayList> getPlaylist() {
+		return playlists;	
+	}
 }
