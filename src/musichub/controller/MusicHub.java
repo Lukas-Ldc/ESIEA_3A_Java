@@ -10,7 +10,6 @@ import musichub.model.AudioBook;
 import musichub.model.AudioElement;
 import musichub.model.PlayList;
 import musichub.model.Song;
-//import musichub.util.*;
 import org.w3c.dom.*;
 
 class SortByDate implements Comparator<Album>
@@ -33,7 +32,7 @@ class SortByAuthor implements Comparator<AudioElement>
 			return e1.getArtist().compareTo(e2.getArtist());
 	} 
 }
-	
+
 public class MusicHub {
 	private List<Album> albums;
 	private List<PlayList> playlists;
@@ -43,6 +42,7 @@ public class MusicHub {
 	public static final String ALBUMS_FILE_PATH = DIR + "/files/albums.xml";
 	public static final String PLAYLISTS_FILE_PATH = DIR + "/files/playlists.xml";
 	public static final String ELEMENTS_FILE_PATH = DIR + "/files/elements.xml";
+	public static final String COVERS_FILE_PATH = DIR + "/files/covers/";
 	
 	private XMLHandler xmlHandler = new XMLHandler();
 	
@@ -53,6 +53,10 @@ public class MusicHub {
 		this.loadElements();
 		this.loadAlbums();
 		this.loadPlaylists();
+	}
+	
+	public static String getCoversPath() {
+		return COVERS_FILE_PATH;
 	}
 	
 	public void addElement(AudioElement element) {
@@ -93,6 +97,18 @@ public class MusicHub {
 	
 	public Iterator<AudioElement> elements() { 
 		return elements.listIterator();
+	}
+	
+	public List<Album> getAlbums () {
+		return albums;
+	}
+	
+	public List<PlayList> getPlaylists() { 
+		return playlists;
+	}
+	
+	public List<AudioElement> getElements () {
+		return elements;
 	}
 	
 	public String getAlbumsTitlesSortedByDate() {
@@ -349,4 +365,9 @@ public class MusicHub {
 	public List<PlayList> getPlaylist() {
 		return playlists;	
 	}
+
+	public List<AudioElement> getAudioElements() {
+		return elements;
+	}
+  
 }

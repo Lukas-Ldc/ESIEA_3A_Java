@@ -1,28 +1,27 @@
 package musichub.view;
-import musichub.controller.AudioElementController;
+
 import musichub.controller.MusicHub;
+import musichub.controller.CoversManager;
 import musichub.exception.*;
 import musichub.model.Album;
 import musichub.model.AudioBook;
 import musichub.model.AudioElement;
 import musichub.model.PlayList;
 import musichub.model.Song;
-
+import musichub.controller.AudioElementController;
 import java.util.*;
-
-import java.beans.XMLEncoder;
-import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
 	
 public class Main
 {
+  
  	public static void main (String[] args) {
 
 		MusicHub theHub = new MusicHub ();
 		AudioElementController audioElementController = new AudioElementController();
-	
+
+		Covers theCovers = new Covers ();
+    
 		System.out.println("Type h for available commands");
-		
 		
 		Scanner scan = new Scanner(System.in);
 		String choice = scan.nextLine();
@@ -51,6 +50,11 @@ public class Main
 					albumTitle = scan.nextLine();
 					try {
 						System.out.println(theHub.getAlbumSongsSortedByGenre(albumTitle));
+						try {
+							theCovers.showAlbumCover(albumTitle);
+						} catch (NoCoverFoundException ex) {
+							System.out.println("No cover found with the requested title !");
+						}
 					} catch (NoAlbumFoundException ex) {
 						System.out.println("No album found with the requested title " + ex.getMessage());
 					}
@@ -65,6 +69,11 @@ public class Main
 					albumTitle = scan.nextLine();
 					try {
 						System.out.println(theHub.getAlbumSongs(albumTitle));
+						try {
+							theCovers.showAlbumCover(albumTitle);
+						} catch (NoCoverFoundException ex) {
+							System.out.println("No cover found with the requested title !");
+						}
 					} catch (NoAlbumFoundException ex) {
 						System.out.println("No album found with the requested title " + ex.getMessage());
 					}
@@ -92,6 +101,11 @@ public class Main
                     String content = scan.nextLine();
                     Song s = new Song (title, artist, length, content, genre);
                     theHub.addElement(s);
+                    printCoversMessage();
+                    String path = scan.nextLine();
+                    if (path.length() > 0) {
+                    	CoversManager.iAutoManager(path, s.getUUID().toString());
+                    }
                     System.out.println("New element list: ");
                     Iterator<AudioElement> it = theHub.elements();
                     while (it.hasNext()) System.out.println(it.next().getTitle());
@@ -112,6 +126,11 @@ public class Main
                     String aDate = scan.nextLine();
                     Album a = new Album(aTitle, aArtist, aLength, aDate);
                     theHub.addAlbum(a);
+                    printCoversMessage();
+                    String aPath = scan.nextLine();
+                    if (aPath.length() > 0) {
+                    	CoversManager.iAutoManager(aPath, a.getUUID().toString());
+                    }
                     System.out.println("New list of albums: ");
                     Iterator<Album> ita = theHub.albums();
                     while (ita.hasNext()) System.out.println(ita.next().getTitle());
@@ -165,6 +184,11 @@ public class Main
                     String bLanguage = scan.nextLine();
                     AudioBook b = new AudioBook (bTitle, bArtist, bLength, bContent, bLanguage, bCategory);
                     theHub.addElement(b);
+                    printCoversMessage();
+                    String bPath = scan.nextLine();
+                    if (bPath.length() > 0) {
+                    	CoversManager.iAutoManager(bPath, b.getUUID().toString());
+                    }
                     System.out.println("Audiobook created! New element list: ");
                     Iterator<AudioElement> itl = theHub.elements();
                     while (itl.hasNext()) System.out.println(itl.next().getTitle());
@@ -184,6 +208,11 @@ public class Main
 					String playListTitle = scan.nextLine();	
 					PlayList pl = new PlayList(playListTitle);
 					theHub.addPlaylist(pl);
+					printCoversMessage();
+                    String pPath = scan.nextLine();
+                    if (pPath.length() > 0) {
+                    	CoversManager.iAutoManager(pPath, pl.getUUID().toString());
+                    }
 					System.out.println("Available elements: ");
 					
 					Iterator<AudioElement> itael = theHub.elements();
@@ -226,7 +255,7 @@ public class Main
 					System.out.println("Playlist deleted!");
 					printAvailableCommands();
 					choice = scan.nextLine();
-				break;
+				  break;
 				case 's':
 					//save elements, albums, playlists
 					theHub.saveElements();
@@ -235,7 +264,7 @@ public class Main
 					System.out.println("Elements, albums and playlists saved!");
 					printAvailableCommands();
 					choice = scan.nextLine();
-				break;
+				  break;
 				case 'r':
 					//random playlists 
 					List<PlayList> playlists = theHub.getPlaylist();
@@ -251,15 +280,42 @@ public class Main
 					printAvailableCommands();//stop to loop print
 					choice = scan.nextLine();
 					break;
+				case 'z':
+					//search a music
+					System.out.println("What music are you looking for?");
+					choice = scan.nextLine();
+					List<String> result = AudioElementController.searchAudioElement(choice);
+					List<AudioElement> list = theHub.getAudioElements();
+					list.size();
 					
-					
+					if(list.size() == 0) {
+						System.out.println("No musical element found");
+					}
+					else {
+						for(String re : result) {
+							System.out.println(re);
+							System.out.println("Write this track if you want to listen to it");
+						}
+						choice = scan.nextLine();
+						
+						// Envoie de la musique à écouter Celia
+						
+					}
+					choice = scan.nextLine();
+				  break;
 				default:
 				
-				break;
+				  break;
 			}
 		}
 		scan.close();
 	}
+ 	
+ 	private static void printCoversMessage() {
+ 		System.out.println("Leave blank if you don't want to add a cover. If you do:"); 
+		System.out.println("	- You can enter the full path to the image.");
+		System.out.println("	- You can put the image in the 'covers' directory and enter only it's name.");
+ 	}
 	
 	private static void printAvailableCommands() {
 		System.out.println("t: display the album titles, ordered by date");

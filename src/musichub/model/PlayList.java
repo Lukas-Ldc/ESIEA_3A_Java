@@ -33,6 +33,10 @@ public class PlayList {
 		return title;
 	}
 	
+	public UUID getUUID() {
+		return uuid;
+	}
+	
 	public PlayList (Element xmlElement) throws Exception {
 		try {
 			this.title = xmlElement.getElementsByTagName("title").item(0).getTextContent();
