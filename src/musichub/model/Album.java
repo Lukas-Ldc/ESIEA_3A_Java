@@ -109,6 +109,10 @@ public class Album {
 		return date;
 	}
 	
+	public UUID getUUID() {
+		return uuid;
+	}
+	
 	public void createXMLElement(Document document, Element parentElement)
 	{
 		Element albumElement = document.createElement("album");

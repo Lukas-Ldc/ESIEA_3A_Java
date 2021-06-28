@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import musichub.model.AudioElement;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -87,4 +88,21 @@ public class AudioElementController {
 		JOptionPane.showMessageDialog(null, "Click OK to stop music");
 	}
 	
+
+
+	public static List<String> searchAudioElement(String title)
+	{
+		MusicHub theHub = new MusicHub ();
+		List<String> research = new ArrayList<String>();
+		List<AudioElement> list = theHub.getAudioElements();
+		
+		for (AudioElement el : list) {
+			if (el.getTitle().toLowerCase().contains(title.toLowerCase()))
+			{
+				research.add(el.getTitle());
+			}
+		}
+		return research;
+	}
+
 }
