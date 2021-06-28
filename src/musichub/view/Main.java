@@ -13,14 +13,15 @@ import java.util.*;
 	
 public class Main
 {
+  
  	public static void main (String[] args) {
 
 		MusicHub theHub = new MusicHub ();
+		AudioElementController audioElementController = new AudioElementController();
+
 		Covers theCovers = new Covers ();
-		
-		
+    
 		System.out.println("Type h for available commands");
-		
 		
 		Scanner scan = new Scanner(System.in);
 		String choice = scan.nextLine();
@@ -254,7 +255,7 @@ public class Main
 					System.out.println("Playlist deleted!");
 					printAvailableCommands();
 					choice = scan.nextLine();
-				break;
+				  break;
 				case 's':
 					//save elements, albums, playlists
 					theHub.saveElements();
@@ -263,8 +264,22 @@ public class Main
 					System.out.println("Elements, albums and playlists saved!");
 					printAvailableCommands();
 					choice = scan.nextLine();
-				break;
-				
+				  break;
+				case 'r':
+					//random playlists 
+					List<PlayList> playlists = theHub.getPlaylist();
+					
+					for(int i=0; i < playlists.size(); i++) {
+						System.out.println(i + " - " + playlists.get(i).getTitle()); //list playlists
+					}
+					
+					System.out.println("Select a playlist ");//
+					String chosenPlaylist = scan.nextLine(); //Playlist choisen by user
+					
+					audioElementController.random(playlists.get(Integer.valueOf(chosenPlaylist)));
+					printAvailableCommands();//stop to loop print
+					choice = scan.nextLine();
+					break;
 				case 'z':
 					//search a music
 					System.out.println("What music are you looking for?");
@@ -283,15 +298,14 @@ public class Main
 						}
 						choice = scan.nextLine();
 						
-						// Envoie de la musique à écouter Celia
+						// Envoie de la musique Ã  Ã©couter Celia
 						
 					}
 					choice = scan.nextLine();
-				break;
-				
+				  break;
 				default:
 				
-				break;
+				  break;
 			}
 		}
 		scan.close();

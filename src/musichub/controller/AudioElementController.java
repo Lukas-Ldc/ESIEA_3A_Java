@@ -1,4 +1,10 @@
 package musichub.controller;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+
+import musichub.model.Album;
+import musichub.model.PlayList;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -107,4 +113,16 @@ public class AudioElementController {
 		return research;
 	}
 
+	public UUID getRamdomPlaylistSong(PlayList playList) {
+		
+		Random rand = new Random();
+		return playList.getElements().get(rand.nextInt(playList.getElements().size()));
+		
+	}
+
+	public void random(PlayList playList) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
