@@ -8,6 +8,7 @@ import musichub.model.AudioBook;
 import musichub.model.AudioElement;
 import musichub.model.PlayList;
 import musichub.model.Song;
+import musichub.controller.AudioElementController;
 import java.util.*;
 	
 public class Main
@@ -263,6 +264,31 @@ public class Main
 					printAvailableCommands();
 					choice = scan.nextLine();
 				break;
+				
+				case 'z':
+					//search a music
+					System.out.println("What music are you looking for?");
+					choice = scan.nextLine();
+					List<String> result = AudioElementController.searchAudioElement(choice);
+					List<AudioElement> list = theHub.getAudioElements();
+					list.size();
+					
+					if(list.size() == 0) {
+						System.out.println("No musical element found");
+					}
+					else {
+						for(String re : result) {
+							System.out.println(re);
+							System.out.println("Write this track if you want to listen to it");
+						}
+						choice = scan.nextLine();
+						
+						// Envoie de la musique à écouter Celia
+						
+					}
+					choice = scan.nextLine();
+				break;
+				
 				default:
 				
 				break;

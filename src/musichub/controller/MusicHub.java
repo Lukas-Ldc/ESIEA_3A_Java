@@ -361,4 +361,8 @@ public class MusicHub {
 		}
 		xmlHandler.createXMLFile(document, ELEMENTS_FILE_PATH);
  	}	
+	
+	public List<AudioElement> getAudioElements() {
+		return elements;
+	}
 }
