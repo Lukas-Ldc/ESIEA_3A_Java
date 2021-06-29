@@ -42,6 +42,9 @@ public class AudioElementController {
 		
 	}
 	
+	/**
+	 * @author celia
+	 */
 	private AudioElementController() {
 		
 		try {
@@ -53,11 +56,15 @@ public class AudioElementController {
 		
 	}
 	
+	/**
+	 * @author celia
+	 * @param uuid
+	 */
 	public void play(UUID uuid) {
 		
 		String path = root + "/files/audio/" + uuid.toString() + ".wav";
 		File file = new File(path);
-		timeStopPos = 0;
+		timeStopPos = 0;  // reset time pause
 		
 		try {
 			
@@ -70,57 +77,71 @@ public class AudioElementController {
 //				// need an active thread to be able to read the audio file
 //				JOptionPane.showMessageDialog(null, "Click OK to stop music");
 //				Thread.sleep(clip.getMicrosecondLength()/1000);
+				
+				// Create a Thread for the audio file
 				CoversManager.iAutoManager(root + "/files/covers", uuid.toString());
 				
 			}
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
 	
+	/**
+	 * @author celia
+	 * to stop the audio
+	 */
 	public void stop() {
-		timeStopPos = clip.getMicrosecondPosition();
+		timeStopPos = clip.getMicrosecondPosition();  // get where the audio stopped
 		clip.stop();
 	}
 	
+	/**
+	 * @author celia
+	 * to be able to continue the audio after a pause
+	 */
 	public void continueAudio() {
 		clip.setMicrosecondPosition(timeStopPos);
 		clip.start();
 		JOptionPane.showMessageDialog(null, "Click OK to stop music");
 	}
 	
+	/**
+	 * @author celia
+	 * @param uuid
+	 */
 	public void playSingleSong(UUID uuid) {
 		play(uuid);
 		JOptionPane.showMessageDialog(null, "Click OK to stop music");
 	}
 	
+	/**
+	 * @author celia
+	 * @param uuid
+	 */
 	public void playLoop(UUID uuid) {
 		play(uuid);
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
 		JOptionPane.showMessageDialog(null, "Click OK to stop music");
 	}
 	
-
-
-	public static List<String> searchAudioElement(String title)
+	
+	public static List<AudioElement> searchAudioElement(String title)
 	{
 		MusicHub theHub = MusicHub.getInstance();
-		List<String> research = new ArrayList<String>();
+		List<AudioElement> research = new ArrayList<AudioElement>();
 		List<AudioElement> list = theHub.getElements();
 		
 		for (AudioElement el : list) {
 			if (el.getTitle().toLowerCase().contains(title.toLowerCase()))
 			{
-				research.add(el.getTitle());
+				research.add(el);
 			}
 		}
 		return research;
@@ -136,8 +157,14 @@ public class AudioElementController {
 	public void random(PlayList playList) {
 		
 		UUID uuid = getRamdomPlaylistSong(playList);
-//		System.out.println("uuid : " + uuid);
+		System.out.println("uuid : " + uuid);
 		play(uuid);
+		
+	}
+	
+	public void playSearchSong(AudioElement audioElement) {
+		
+		play(audioElement.getUUID());
 		
 	}
 	

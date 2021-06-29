@@ -273,7 +273,7 @@ public class Main
 						System.out.println(i + " - " + playlists.get(i).getTitle()); //list playlists
 					}
 					
-					System.out.println("Select a playlist ");//
+					System.out.println("Select a playlist (write index, e.g 0)");//
 					String chosenPlaylist = scan.nextLine(); //Playlist choisen by user
 					
 					audioElementController.random(playlists.get(Integer.valueOf(chosenPlaylist)));
@@ -283,25 +283,29 @@ public class Main
 				case 'z':
 					//search a music
 					System.out.println("What music are you looking for?");
-					choice = scan.nextLine();
-					List<String> result = AudioElementController.searchAudioElement(choice);
+					String searchTitle = scan.nextLine();
+					List<AudioElement> result = AudioElementController.searchAudioElement(searchTitle);
 					List<AudioElement> list = theHub.getElements();
 					list.size();
 					
 					if(list.size() == 0) {
 						System.out.println("No musical element found");
-					}
-					else {
-						for(String re : result) {
-							System.out.println(re);
-							System.out.println("Write this track if you want to listen to it");
+					}else {
+						
+						for(int i = 0; i < result.size(); i++) {
+							System.out.println(i + " - " + result.get(i).getTitle());
 						}
-						choice = scan.nextLine();
 						
-						// Envoie de la musique à écouter Celia
+						System.out.println("Which do you want to listen ? (write index, e.g 0)");
+						String chosenSong = scan.nextLine();
+						
+						audioElementController.playSearchSong(result.get(Integer.valueOf(chosenSong)));
 						
 					}
+					
+					printAvailableCommands();
 					choice = scan.nextLine();
+					
 				  break;
 				default:
 				
@@ -326,6 +330,8 @@ public class Main
 		System.out.println("a: add a new album");
 		System.out.println("+: add a song to an album");
 		System.out.println("l: add a new audiobook");
+		System.out.println("r: to play a random audio file from a playlist");
+		System.out.println("z: search a music to play");
 		System.out.println("p: create a new playlist from existing songs and audio books");
 		System.out.println("-: delete an existing playlist");
 		System.out.println("s: save elements, albums, playlists");

@@ -15,6 +15,7 @@ public class CoversManager {
 		if (iTester(i)) {
 			iResizer(i);
 			File n = new File(MusicHub.getCoversPath() + uuid + ".png");
+			System.out.println("n = " + n.getPath());
 			iDeleter(n);
 			iMover(i, n);
 		}
