@@ -16,8 +16,8 @@ public class Main
   
  	public static void main (String[] args) {
 
-		MusicHub theHub = new MusicHub ();
-		AudioElementController audioElementController = new AudioElementController();
+		MusicHub theHub = MusicHub.getInstance();
+		AudioElementController audioElementController = AudioElementController.getInstance();
 
 		Covers theCovers = new Covers ();
     
@@ -267,7 +267,7 @@ public class Main
 				  break;
 				case 'r':
 					//random playlists 
-					List<PlayList> playlists = theHub.getPlaylist();
+					List<PlayList> playlists = theHub.getPlaylists();
 					
 					for(int i=0; i < playlists.size(); i++) {
 						System.out.println(i + " - " + playlists.get(i).getTitle()); //list playlists
@@ -285,7 +285,7 @@ public class Main
 					System.out.println("What music are you looking for?");
 					choice = scan.nextLine();
 					List<String> result = AudioElementController.searchAudioElement(choice);
-					List<AudioElement> list = theHub.getAudioElements();
+					List<AudioElement> list = theHub.getElements();
 					list.size();
 					
 					if(list.size() == 0) {

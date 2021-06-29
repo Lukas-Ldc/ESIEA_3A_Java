@@ -14,7 +14,7 @@ import java.io.File;
 
 public class Covers {
 	
-	private MusicHub theHub = new MusicHub ();
+	private MusicHub theHub = MusicHub.getInstance();
 	private List<Album> albums = theHub.getAlbums();
 	private List<PlayList> playlists = theHub.getPlaylists();
 	private List<AudioElement> elements = theHub.getElements();

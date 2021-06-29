@@ -30,8 +30,19 @@ public class AudioElementController {
 	private Clip clip = null;
 	private long timeStopPos = 0;
 	private Thread currentActiveThread = null;
+	private static AudioElementController INSTANCE = null;
 	
-	public AudioElementController() {
+	public static AudioElementController getInstance() {
+		
+		if(INSTANCE == null) {
+			INSTANCE = new AudioElementController();
+		}
+		
+		return INSTANCE;
+		
+	}
+	
+	private AudioElementController() {
 		
 		try {
 			clip = AudioSystem.getClip();
@@ -42,9 +53,9 @@ public class AudioElementController {
 		
 	}
 	
-	public void play(String songName) {
+	public void play(UUID uuid) {
 		
-		String path = root + "/audioFile/" + songName + ".wav";
+		String path = root + "/files/audio/" + uuid.toString() + ".wav";
 		File file = new File(path);
 		timeStopPos = 0;
 		
@@ -59,6 +70,8 @@ public class AudioElementController {
 //				// need an active thread to be able to read the audio file
 //				JOptionPane.showMessageDialog(null, "Click OK to stop music");
 //				Thread.sleep(clip.getMicrosecondLength()/1000);
+				CoversManager.iAutoManager(root + "/files/covers", uuid.toString());
+				
 			}
 			
 		} catch (IOException e) {
@@ -85,13 +98,13 @@ public class AudioElementController {
 		JOptionPane.showMessageDialog(null, "Click OK to stop music");
 	}
 	
-	public void playSingleSong(String songName) {
-		play(songName);
+	public void playSingleSong(UUID uuid) {
+		play(uuid);
 		JOptionPane.showMessageDialog(null, "Click OK to stop music");
 	}
 	
-	public void playLoop(String songName) {
-		play(songName);
+	public void playLoop(UUID uuid) {
+		play(uuid);
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
 		JOptionPane.showMessageDialog(null, "Click OK to stop music");
 	}
@@ -100,9 +113,9 @@ public class AudioElementController {
 
 	public static List<String> searchAudioElement(String title)
 	{
-		MusicHub theHub = new MusicHub ();
+		MusicHub theHub = MusicHub.getInstance();
 		List<String> research = new ArrayList<String>();
-		List<AudioElement> list = theHub.getAudioElements();
+		List<AudioElement> list = theHub.getElements();
 		
 		for (AudioElement el : list) {
 			if (el.getTitle().toLowerCase().contains(title.toLowerCase()))
@@ -121,7 +134,10 @@ public class AudioElementController {
 	}
 
 	public void random(PlayList playList) {
-		// TODO Auto-generated method stub
+		
+		UUID uuid = getRamdomPlaylistSong(playList);
+//		System.out.println("uuid : " + uuid);
+		play(uuid);
 		
 	}
 	

@@ -45,8 +45,19 @@ public class MusicHub {
 	public static final String COVERS_FILE_PATH = DIR + "/files/covers/";
 	
 	private XMLHandler xmlHandler = new XMLHandler();
+	private static MusicHub INSTANCE = null;
 	
-	public MusicHub () {
+	public static MusicHub getInstance() {
+		
+		if(INSTANCE == null) {
+			INSTANCE = new MusicHub();
+		}
+		
+		return INSTANCE;
+		
+	}
+	
+	private MusicHub () {
 		albums = new LinkedList<Album>();
 		playlists = new LinkedList<PlayList>();
 		elements = new LinkedList<AudioElement>();
